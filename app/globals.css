@@ -1,26 +1,269 @@
 @import "tailwindcss";
 
+/* === Sprint Club Brutalist Design System === */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color Tokens */
+  --bg: #0B0D10;
+  --fg: #F5F1E8;
+  --panel: #11141A;
+  --muted: #8A8F98;
+  --lime: #C6FF00;
+  
+  /* Layout */
+  --bw: 2px;
+  --off: 4px;
+  
+  /* Override Tailwind defaults */
+  --background: var(--bg);
+  --foreground: var(--fg);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-lime: #C6FF00;
+  --color-muted: #8A8F98;
+  --color-panel: #11141A;
+  --font-display: var(--font-bebas-neue);
+  --font-body: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* === Base Styles === */
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* === Typography === */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-bebas-neue), 'Arial Black', sans-serif;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* === Grid Overlay (subtle) === */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    linear-gradient(rgba(198, 255, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198, 255, 0, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* === Noise Texture Overlay === */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* === Brutalist Button === */
+.btn-brutal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-bebas-neue), 'Arial Black', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--fg);
+  color: var(--bg);
+  border: var(--bw) solid var(--fg);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--off) var(--off) 0 var(--lime);
+}
+
+.btn-brutal:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.btn-brutal--lime {
+  background: var(--lime);
+  color: var(--bg);
+  border-color: var(--lime);
+}
+
+.btn-brutal--outline {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.btn-brutal--outline:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* === Brutalist Input === */
+.input-brutal {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-inter), Arial, sans-serif;
+  font-size: 0.875rem;
+  background: var(--panel);
+  color: var(--fg);
+  border: var(--bw) solid var(--muted);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-brutal:focus {
+  outline: none;
+  border-color: var(--lime);
+  box-shadow: inset 0 0 0 1px var(--lime);
+}
+
+.input-brutal::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+/* === Panel === */
+.panel-brutal {
+  background: var(--panel);
+  border: var(--bw) solid var(--muted);
+  position: relative;
+}
+
+.panel-brutal::before,
+.panel-brutal::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: var(--bw) solid var(--lime);
+}
+
+.panel-brutal::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.panel-brutal::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+/* === Lane Lines Background === */
+.lane-lines {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 19%,
+    rgba(198, 255, 0, 0.08) 19%,
+    rgba(198, 255, 0, 0.08) 20%
+  );
+}
+
+/* === Section Padding === */
+.section-padding {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 7rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 8rem 4rem;
+  }
+}
+
+/* === Eyebrow Tag === */
+.eyebrow {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+}
+
+.eyebrow--lime {
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+/* === Accordion === */
+.accordion-item {
+  border-bottom: 1px solid var(--muted);
+}
+
+.accordion-trigger {
+  width: 100%;
+  padding: 1.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-bebas-neue), 'Arial Black', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--fg);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-trigger:hover {
+  color: var(--lime);
+}
+
+.accordion-content {
+  padding-bottom: 1.25rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+/* === Respect reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
